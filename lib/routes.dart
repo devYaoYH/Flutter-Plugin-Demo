@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'battery_page.dart';
 import 'camera_page.dart';
 
 Route routeBuilder(Widget Function() builder) {
@@ -15,4 +16,8 @@ Route routeBuilder(Widget Function() builder) {
 
 Route cameraPageBuilder() {
   return routeBuilder(() => const CameraPage());
+}
+
+Route batteryPageBuilder() {
+  return routeBuilder(() => const BatteryPage());
 }

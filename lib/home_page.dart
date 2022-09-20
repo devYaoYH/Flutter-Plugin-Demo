@@ -19,6 +19,11 @@ const plugins = [
     description: 'Take a photo with the camera!',
     buildRoute: cameraPageBuilder,
   ),
+  PluginInfo(
+    'Battery',
+    description: 'View battery level',
+    buildRoute: batteryPageBuilder,
+  )
 ];
 
 class HomePage extends StatelessWidget {
