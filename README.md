@@ -20,6 +20,7 @@ samples, guidance on mobile development, and a full API reference.
 <div>
   <img src="https://github.com/devYaoYH/Flutter-Plugin-Demo/blob/completed/img/HomePage.png" width=240px>
   <img src="https://github.com/devYaoYH/Flutter-Plugin-Demo/blob/completed/img/CameraPage.png" width=240px>
+  <img src="https://github.com/devYaoYH/Flutter-Plugin-Demo/blob/completed/img/BatteryPage.png" width=240px>
 </div>
 
 ## References
