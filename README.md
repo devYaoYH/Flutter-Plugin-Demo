@@ -15,6 +15,12 @@ For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
+## What we're building - Completed Demo
+
+![home_page.dart](https://github.com/devYaoYH/Flutter-Plugin-Demo/blob/completed/img/HomePage.png)
+
+![camera_page.dart](https://github.com/devYaoYH/Flutter-Plugin-Demo/blob/completed/img/CameraPage.png)
+
 ## References
 
 * [First Flutter App pt.2](https://codelabs.developers.google.com/codelabs/first-flutter-app-pt2)
