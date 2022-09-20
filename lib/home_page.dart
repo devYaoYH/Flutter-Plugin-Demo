@@ -40,7 +40,15 @@ class HomePage extends StatelessWidget {
           itemCount: plugins.length,
           itemBuilder: (context, i) {
             //TODO: Render route to new page.
-            return const Text('ListTile');
+            return ListTile(
+              title: Text(plugins[i].title),
+              subtitle: Text(plugins[i].description),
+              trailing: IconButton(
+                icon: const Icon(Icons.arrow_forward),
+                onPressed: () =>
+                    Navigator.push(context, plugins[i].buildRoute()),
+              ),
+            );
           },
         ),
       ),

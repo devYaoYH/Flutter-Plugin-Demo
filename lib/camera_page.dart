@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-//TODO: Import camera plugin.
 
 // Page to display camera preview and take photos.
 class CameraPage extends StatefulWidget {
@@ -16,27 +16,65 @@ class CameraPage extends StatefulWidget {
 
 class _CameraPageState extends State<CameraPage> {
   bool _hasInitialized = false;
+  bool _useFrontCamera = false;
   final List<String> _images = [];
+  List<CameraDescription> _cameras = [];
   late Future<void> _initializeControllerFuture;
-  //TODO: Declare handle to camera controller.
+  late CameraController _cameraController;
 
   // Takes an image and saves it into temporary storage.
   Future<void> _captureImage() async {
-    //TODO: Take a picture :)
-    print('Taking a photo!');
+    // Take a picture :)
+    try {
+      final image = await _cameraController.takePicture();
+      setState(() {
+        _images.add(image.path);
+      });
+      print('Taking a photo!');
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  // Initialize camera controller for camera selected.
+  void _initializeCameraController(CameraDescription camera) {
+    // Get a new controller.
+    _cameraController = CameraController(
+      camera,
+      ResolutionPreset.medium,
+    );
+
+    _initializeControllerFuture = _cameraController.initialize();
+
+    setState(() {
+      _hasInitialized = true;
+    });
+  }
+
+  // Flip camera used.
+  Future<void> _flipCamera() async {
+    // Check if camera has been initialized yet.
+    if (!_hasInitialized) {
+      await _setupCamera();
+      return;
+    }
+
+    // Flip the camera.
+    _useFrontCamera = !_useFrontCamera;
+
+    // Initialize Camera Controller.
+    _initializeCameraController(
+        _useFrontCamera ? _cameras.last : _cameras.first);
   }
 
   // Initialize camera controller.
   Future<void> _setupCamera() async {
-    //TODO: Get list of cameras.
+    // Get list of cameras.
+    _cameras = await availableCameras();
 
-    //TODO: Initialize camera.
-    _initializeControllerFuture = Future.delayed(const Duration(seconds: 2));
-
-    // Modify the state of this widget (triggers a rebuild).
-    setState(() {
-      _hasInitialized = true;
-    });
+    // Initialize Camera Controller.
+    _initializeCameraController(
+        _useFrontCamera ? _cameras.last : _cameras.first);
   }
 
   @override
@@ -49,7 +87,8 @@ class _CameraPageState extends State<CameraPage> {
 
   @override
   void dispose() {
-    //TODO: Dispose of the controller when the widget is disposed.
+    // Dispose of the controller when the widget is disposed.
+    _cameraController.dispose();
     super.dispose();
   }
 
@@ -63,8 +102,7 @@ class _CameraPageState extends State<CameraPage> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           // If the Future is complete, display the preview.
-          //TODO: Render the camera preview.
-          return const Text('Actual camera preview');
+          return CameraPreview(_cameraController);
         } else {
           // Otherwise, display a loading indicator.
           return const Text('<camera preview placeholder>');
@@ -87,6 +125,8 @@ class _CameraPageState extends State<CameraPage> {
 
   @override
   Widget build(BuildContext context) {
+    final widgetMaxWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -94,8 +134,25 @@ class _CameraPageState extends State<CameraPage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Container(
-            child: _cameraPreviewBuilder(),
+          // Constrain height and width of camera preview widget.
+          SizedBox(
+            width: widgetMaxWidth,
+            height: widgetMaxWidth * 0.7,
+            // Add internal padding.
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              // Clip overflow edges in child widget.
+              child: FittedBox(
+                fit: BoxFit.fitWidth,
+                clipBehavior: Clip.hardEdge,
+                // Fixed size for camera preview based on max width.
+                // Height will be automatic based on camera aspect ratio.
+                child: SizedBox(
+                  width: widgetMaxWidth,
+                  child: _cameraPreviewBuilder(),
+                ),
+              ),
+            ),
           ),
           Expanded(
             child: ListView.builder(
@@ -105,18 +162,43 @@ class _CameraPageState extends State<CameraPage> {
                 // Renders the file path and displays image thumbnail.
                 return ListTile(
                   title: Text(_images[i]),
-                  trailing: _renderImageFromPath(_images[i]),
+                  leading: _renderImageFromPath(_images[i]),
                 );
               },
             ),
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _captureImage,
-        tooltip: 'Take Photo',
-        child: const Icon(Icons.camera_alt),
+      floatingActionButton: Stack(
+        alignment: AlignmentDirectional.center,
+        children: <Widget>[
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 16, bottom: 16),
+              child: FloatingActionButton(
+                heroTag: null,
+                onPressed: _captureImage,
+                tooltip: 'Take Photo',
+                child: const Icon(Icons.camera_alt),
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 16, bottom: 16),
+              child: FloatingActionButton(
+                heroTag: null,
+                onPressed: _flipCamera,
+                tooltip: 'Flip Camera',
+                child: const Icon(Icons.flip),
+              ),
+            ),
+          ),
+        ],
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
