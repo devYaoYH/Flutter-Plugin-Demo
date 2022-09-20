@@ -17,9 +17,10 @@ samples, guidance on mobile development, and a full API reference.
 
 ## What we're building - Completed Demo
 
-![home_page.dart](https://github.com/devYaoYH/Flutter-Plugin-Demo/blob/completed/img/HomePage.png)
-
-![camera_page.dart](https://github.com/devYaoYH/Flutter-Plugin-Demo/blob/completed/img/CameraPage.png)
+<div>
+  <img src="https://github.com/devYaoYH/Flutter-Plugin-Demo/blob/completed/img/HomePage.png" width=240px>
+  <img src="https://github.com/devYaoYH/Flutter-Plugin-Demo/blob/completed/img/CameraPage.png" width=240px>
+</div>
 
 ## References
 
