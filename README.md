@@ -22,8 +22,8 @@ samples, guidance on mobile development, and a full API reference.
     - Different flavors of arguments in Dart (positional, named, required).
     - Multi-page setup with navigation routes.
     - Handling async events and using FutureBuilder.
-2. In Part 1 of the tutorial, we will explore using an existing Flutter Plugin (camera) to arrive at the completed demo (reference code in [completed](https://github.com/devYaoYH/Flutter-Plugin-Demo/blob/completed) branch).
-3. In Part 2 of the tutorial (Bonus), we will explore authoring our own Flutter Plugin using the Pigeon tool (reference code in [custom-plugin](https://github.com/devYaoYH/Flutter-Plugin-Demo/blob/custom-plugin) branch).
+2. In Part 1 of the tutorial, we will explore using an existing Flutter Plugin (camera) to arrive at the completed demo (reference code in [completed](https://github.com/devYaoYH/Flutter-Plugin-Demo/tree/completed) branch).
+3. In Part 2 of the tutorial (Bonus), we will explore authoring our own Flutter Plugin using the Pigeon tool (reference code in [custom-plugin](https://github.com/devYaoYH/Flutter-Plugin-Demo/tree/custom-plugin) branch).
 
 ## What we're building - Starting skeleton app
 
