@@ -1,16 +1,19 @@
 package com.example.flutter_plugin_demo
 
-import io.flutter.embedding.android.FlutterActivity
-import dev.flutter.pigeon.Pigeon
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
 import android.content.IntentFilter
+import android.media.AudioManager
 import android.os.BatteryManager
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import android.os.Bundle
+import dev.flutter.pigeon.Pigeon
+import io.flutter.embedding.android.FlutterActivity
 import io.flutter.plugin.common.BinaryMessenger
+import kotlin.math.round
+
 
 class MainActivity: FlutterActivity() {
   // Extend the Pigeon-generated abstract class with an implementation.
@@ -18,6 +21,15 @@ class MainActivity: FlutterActivity() {
     override fun getCurrentBatteryLevel(): Long {
       return Fn();
     }
+  }
+
+  private fun _getCurrentMediaVolumeLevel(): Long {
+    val volumeLevel: Long
+
+    val am = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+    volumeLevel = round(am.getStreamVolume(AudioManager.STREAM_MUSIC).toDouble()/am.getStreamMaxVolume(AudioManager.STREAM_MUSIC)*100).toLong()
+
+    return volumeLevel
   }
 
   // Local function to interact with native platform. Directly copied from:
@@ -39,6 +51,6 @@ class MainActivity: FlutterActivity() {
     val binaryMessenger : BinaryMessenger? = flutterEngine?.dartExecutor?.binaryMessenger
 
     // Initialize plugins in activity onCreate.
-    Pigeon.BatteryApi.setup(binaryMessenger, BatteryPlugin(::_getCurrentBatteryLevel))
+    Pigeon.BatteryApi.setup(binaryMessenger, BatteryPlugin(::_getCurrentMediaVolumeLevel))
   }
 }

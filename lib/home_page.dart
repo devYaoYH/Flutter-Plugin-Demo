@@ -20,8 +20,8 @@ const plugins = [
     buildRoute: cameraPageBuilder,
   ),
   PluginInfo(
-    'Battery',
-    description: 'View battery level',
+    'Volume',
+    description: 'View volume level',
     buildRoute: batteryPageBuilder,
   )
 ];

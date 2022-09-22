@@ -10,7 +10,7 @@ class BatteryPage extends StatefulWidget {
 
   // Page to render the current device battery level.
 
-  final String title = 'Battery Level Plugin';
+  final String title = 'Volume Level Plugin';
 
   @override
   State<BatteryPage> createState() => _BatteryPageState();
@@ -38,7 +38,7 @@ class _BatteryPageState extends State<BatteryPage> {
     unawaited(_getBatteryLevelFuture());
 
     // Poll every 10 seconds thereafter for the current battery level.
-    const pollInterval = Duration(seconds: 10);
+    const pollInterval = Duration(seconds: 1);
     _scheduledPollingTimer = Timer.periodic(
       pollInterval,
       (Timer t) => _getBatteryLevelFuture(),
@@ -60,7 +60,7 @@ class _BatteryPageState extends State<BatteryPage> {
       ),
       body: Center(
         child: Text(
-          "Battery: $_batteryLevel%",
+          "Volume: $_batteryLevel%",
           style: const TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
